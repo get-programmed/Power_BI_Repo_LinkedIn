@@ -1,0 +1,38 @@
+Animated SVG = 
+    // Calculate the maximum utilization from the 'Table'
+    VAR _Percentage = CALCULATE(MAX('Table'[Utilization]))
+
+    // Format the utilization percentage for display
+    VAR _PercentageFormate = FORMAT(_Percentage, "#0")
+
+    // Calculate the width of the progress bar based on the utilization percentage
+    VAR _ProgressBar = _Percentage * 0.75
+
+    // Construct the SVG image with dynamic values
+    RETURN
+        "data:image/svg+xml;utf8," & 
+        "<svg width='120' height='30' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='https://lnkd.in/dZ5ikEfb' display='block' overflow='visible'> 
+            <defs>
+                <!-- Define a linear gradient for the progress bar -->
+                <linearGradient id='gradient' x1='0%' y1='0%' x2='80%' y2='0%' gradientUnits='userSpaceOnUse'>
+                    <stop offset='45%' style='stop-color: #24D1DB' />
+                    <stop offset='130%' style='stop-color: #0FF14E'/>
+                </linearGradient>
+            </defs>
+
+            <!-- Background rectangle for the entire SVG -->
+            <rect x='0' y='0' width='120' height='20' rx='10' ry='10' style='fill: #0085FF'/>
+
+            <!-- Rectangle for the label background -->
+            <rect x='2.5' y='2.4' width='37' height='15' rx='8' ry='8' style='fill: #000000' />
+
+            <!-- Label text displaying the utilization percentage -->
+            <text x='22' y='11.2' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='bold' font-size='12'> "& _PercentageFormate &" <tspan font-size='8' fill='white'> % </tspan> </text>
+
+            <!-- Progress bar rectangle with animation -->
+            <rect x='42.5' y='2.4' width='"& _ProgressBar &"' height='15' rx='8' ry='8' style='fill: url(#gradient)'>
+            
+                <!-- Animation to gradually increase the width of the progress bar (a Code by Rahun Singh Chundawat)-->
+                <animate attributeName='width' from='0' to='"& _ProgressBar &"' dur='2s' fill='freeze'/>
+            </rect>
+        </svg>"
