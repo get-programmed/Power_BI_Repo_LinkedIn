@@ -1,0 +1,51 @@
+Animated SVG = 
+// Calculate the maximum utilization from the 'Table'
+VAR _Rating = CALCULATE(MAX('Table'[Rating]))
+
+// Format the utilization percentage for display
+VAR _RatingFormat = FORMAT(_Rating, "#0.0")
+
+// Calculate the width of the progress bar based on the utilization percentage
+VAR _RatingBar = _Rating * 20
+
+// Construct the SVG image with dynamic values
+RETURN
+    "data:image/svg+xml;utf8," & 
+    "<svg width='150' height='30' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' display='block' overflow='visible'>
+
+    <!-- Blue rectangle -->
+    <rect rx='6' ry='6' width='150' height='30' fill='#08484B' />
+
+    <!-- Yellow rectangle -->
+    <rect rx='3' ry='3' x='42' y='5' width='"& _RatingBar &"' height='20' fill='#FECC00' >
+	    <animate attributeName='width' from='0' to='"& _RatingBar &"' dur='2s' fill='freeze'/>
+    </rect>
+
+    <!-- Clipped blue rectangle -->
+    <rect rx='6' ry='6' width='150' height='30' fill='#08484B' mask='url(#starMask)' />
+
+    <defs>
+        <!-- Star path -->
+        <path id='MainStar' xmlns='http://www.w3.org/2000/svg' d='M7.01538 7.01539L9.35385 0L11.6923 7.01539H19L13.1538 11.4L15.4923 18.4154L9.35385 14.0308L3.50769 18.1231L5.55385 11.4L0 7.01539H7.01538Z' fill='black'/>
+    </defs>
+
+    <defs>
+        <mask id='starMask'>
+            <rect width='100%' height='100%' fill='white' />
+            <use xlink:href='#MainStar' x='42' y='5'/>
+            <use xlink:href='#MainStar' x='62' y='5'/>
+            <use xlink:href='#MainStar' x='82' y='5'/>
+            <use xlink:href='#MainStar' x='102' y='5'/>
+            <use xlink:href='#MainStar' x='122' y='5' />
+        </mask>
+    </defs> 
+
+    <!-- Black rounded rectangle with a yellow star -->
+    <rect x='5' y='5' width='28' height='20' rx='5' ry='5' style='fill: black'>
+        <use xlink:href='#MainStar' fill='#FECC00' />
+    </rect>
+
+    <!-- White text -->
+    <text x='19' y='16.5' fill='white' text-anchor='middle' dominant-baseline='middle' font-family='Arial' font-weight='bold' font-size='15'>" & _RatingFormat & "</text>
+
+</svg>"
