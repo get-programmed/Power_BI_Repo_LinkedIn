@@ -1,0 +1,20 @@
+Simplified SVG = 
+VAR _CalendarDAY = DAY(CALCULATE(MAX('CalendarTable'[Date])))
+VAR _EventName = CALCULATE(MAX('holidays-2023-us'[Name]))
+VAR _IfEventpresent = IF(ISBLANK(_EventName),"", _EventName)
+RETURN
+IF(HASONEVALUE('CalendarTable'[Date]),
+    "data:image/svg+xml;utf8," & 
+    "<svg width='100' height='100' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' display='block' overflow='visible'>
+    <rect rx='6' ry='6' width='100' height='100' fill='#01504D' />
+  <foreignObject x='0' y='5' width='100px' height='100px'>
+    <div xmlns='http://www.w3.org/1999/xhtml' style='color: #ffffff; font-family: Arial; font-weight: bold; font-size: 10px; padding: 10px;'>
+      <p>"& _IfEventpresent &"</p>
+    </div>
+  </foreignObject>
+    <!-- White text -->
+    <text x='95' y='15' fill='white' text-anchor='end' dominant-baseline='middle' font-family='Arial' font-weight='bold' font-size='16'>"& _CalendarDAY &"</text>
+
+</svg>"
+)
+
