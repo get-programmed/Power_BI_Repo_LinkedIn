@@ -1,0 +1,24 @@
+_ConstantLineAt = 
+SWITCH (
+    TRUE (),
+    ISFILTERED('Onyx Data -DataDNA Dataset Chal'[Date].[Year]) && ISFILTERED('Onyx Data -DataDNA Dataset Chal'[Date].[Month]), 7000,
+    ISFILTERED('Onyx Data -DataDNA Dataset Chal'[Date].[Year]), 14000,
+    ISFILTERED('Onyx Data -DataDNA Dataset Chal'[Date].[Month]), 40000,
+    80000
+)
+
+
+
+_SumCondition = 
+VAR _SumIs = CALCULATE(SUM('Onyx Data -DataDNA Dataset Chal'[TotalPrice]))
+VAR _Cond = IF( _SumIs >= [_ConstantLineAt], [_ConstantLineAt], _SumIs)
+RETURN
+_Cond
+
+
+
+_SumStaked = 
+VAR _SumIs = CALCULATE(SUM('Onyx Data -DataDNA Dataset Chal'[TotalPrice])) - [_ConstantLineAt]
+VAR _Cond = IF( _SumIs <0, 0, _SumIs)
+RETURN
+_Cond
