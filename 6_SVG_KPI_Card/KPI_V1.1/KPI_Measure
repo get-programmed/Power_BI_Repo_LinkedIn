@@ -1,0 +1,85 @@
+New version KPI 2 = 
+VAR CardName = "Returns"
+VAR Currents =
+    IF ( [Returns] = 0 || ISBLANK ( [Returns] ), 0, [Returns] )
+VAR Previous =
+    IF ( [Returns PM] = 0 || ISBLANK ( [Returns PM] ), 0, [Returns PM] )
+VAR _Variance = [Returns Variance]
+VAR _VariancePer = [Returns Variance %]
+VAR _ConditionForAll =
+    SWITCH ( TRUE (), _Variance < 0, 1, _Variance > 0, 0, BLANK () )
+VAR _CondArrow =
+    SWITCH ( TRUE (), _Variance < 0, "▼", _Variance > 0, "▲", "-" )
+VAR _Color =
+    SWITCH (
+        TRUE (),
+        _Variance < 0, "#FC1F1F",
+        _Variance > 0, "#00B112",
+        "#DE5B12"
+    )
+VAR _Per_Difference_ =
+    IF ( _VariancePer = 0 || ISBLANK ( _VariancePer ), 0, _VariancePer ) // "Date" field used in this example along the X axis
+VAR XMinDate =
+    MIN ( Sales[Date] )
+VAR XMaxDate =
+    MAX ( Sales[Date] ) // Obtain overall min and overall max measure values when evaluated for each date
+VAR YMinValue =
+    MINX ( ALL ( Sales[Date] ), CALCULATE ( [Returns] ) + 0 )
+VAR YMaxValue =
+    MAXX ( ALL ( Sales[Date] ), CALCULATE ( [Returns] ) + 0 ) // Build table of X & Y coordinates and fit to 50 x 150 viewbox
+VAR SparklineTable =
+    ADDCOLUMNS (
+        SUMMARIZE ( 'Sales', Sales[Date] ),
+        "X",
+            INT ( 60 * DIVIDE ( Sales[Date] - XMinDate, XMaxDate - XMinDate ) ) + 180,
+        "Y",
+            INT ( 37 * DIVIDE ( [Returns] - YMinValue, YMaxValue - YMinValue ) ) - 45
+    ) // Concatenate X & Y coordinates to build the sparkline
+VAR Lines =
+    CONCATENATEX ( SparklineTable, [X] & "," & 50 - [Y], " ", Sales[Date] )
+RETURN
+    "
+    <svg  xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewbox ='0 0 250 110' '>
+    <defs>
+        <filter id='drop-shadow' x='-20%' y='-20%' width='140%' height='140%'>
+        <feDropShadow dx='5' dy='5' stdDeviation='5' flood-color='#000000' />
+        </filter>
+    </defs>
+
+    <!-- Draw the white box with the drop shadow filter applied -->
+    <rect x='0' y='0' rx='10' ry='10' width='250' height='110' style='fill: #ffffff;'/>
+ 
+    <text x='40' y='20.5' font-family='Segoe UI' font-size='20' fill='#4176EB' text-anchor='left' dominant-baseline='middle' font-weight='bold' >
+    " & CardName & "</text>
+    <text font-family='Segoe UI' font-size='20' fill='#7C95DE' text-anchor='left' dominant-baseline='middle' font-weight='bold'>
+     <tspan x='10' y='60'  > "
+        & FORMAT ( Currents, "$##,##0" ) & " </tspan>
+    <tspan y='50' font-size='13' fill='" & _Color & "'> " & _CondArrow & " "
+        & FORMAT ( _Per_Difference_, "0.0%" ) & " </tspan></text>
+
+    <text x='10' y='90' font-family='Segoe UI' font-size='12' fill='#7C95DE' text-anchor='left' dominant-baseline='middle' font-weight='bold'>
+        <tspan fill='#B3B3B3'> by </tspan>
+        <tspan fill='" & _Color & "'> "
+            & FORMAT ( _Variance, "$##,##0" ) & " </tspan>
+	    <tspan fill='#B3B3B3'>from LM</tspan>
+    </text>
+
+    <rect x='175' y='52' rx='7' ry='7' width='70' height='50' style='fill: #C6D8FF' stroke='#ffffff50' stroke-width='0.2'/>
+    <defs>
+    <linearGradient id='grad' x1='0' y1='40' x2='0' y2='50' gradientUnits='userSpaceOnUse'>
+        <stop stop-color='steelblue' offset='0' />
+        <stop stop-color='red' offset='1' />
+    </linearGradient>
+    </defs>
+    <polyline fill='none' stroke='#5B7BD6' stroke-width='1' points='" & Lines & "'/>
+
+    
+	<image x='2' y='9' width='35' height='25' xlink:href='" & [_KPI Icon] & "' />
+
+
+   <image x='215' y='4' width='35' height='25' xlink:href='" & [_KPI Indicators] & "' >
+   <animate attributeName='opacity' values='0;1;0' keyTimes='0;0.5;1' dur='4s' fill='freeze' repeatCount='indefinite' ease='ease-in-out' />
+   </image>
+
+</svg>
+"
