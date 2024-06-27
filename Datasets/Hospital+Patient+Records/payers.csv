@@ -1,0 +1,11 @@
+﻿Id,NAME,ADDRESS,CITY,STATE_HEADQUARTERED,ZIP,PHONE
+b3221cfc-24fb-339e-823d-bc4136cbc4ed,Dual Eligible,7500 Security Blvd,Baltimore,MD,21244,1-877-267-2323
+7caa7254-5050-3b5e-9eae-bd5ea30e809c,Medicare,7500 Security Blvd,Baltimore,MD,21244,1-800-633-4227
+7c4411ce-02f1-39b5-b9ec-dfbea9ad3c1a,Medicaid,7500 Security Blvd,Baltimore,MD,21244,1-877-267-2323
+d47b3510-2895-3b70-9897-342d681c769d,Humana,500 West Main St,Louisville,KY,40018,1-844-330-7799
+6e2f1a2d-27bd-3701-8d08-dae202c58632,Blue Cross Blue Shield,Michigan Plaza,Chicago,IL,60007,1-800-262-2583
+5059a55e-5d6e-34d1-b6cb-d83d16e57bcf,UnitedHealthcare,9800 Healthcare Lane,Minnetonka,MN,55436,1-888-545-5205
+4d71f845-a6a9-3c39-b242-14d25ef86a8d,Aetna,151 Farmington Ave,Hartford,CT,6156,1-800-872-3862
+047f6ec3-6215-35eb-9608-f9dda363a44c,Cigna Health,900 Cottage Grove Rd,Bloomfield,CT,6002,1-800-997-1654
+42c4fca7-f8a9-3cd1-982a-dd9751bf3e2a,Anthem,220 Virginia Ave,Indianapolis,IN,46204,1-800-331-1476
+b1c428d6-4f07-31e0-90f0-68ffa6ff8c76,NO_INSURANCE,,,,,

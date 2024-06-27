@@ -1,0 +1,66 @@
+﻿Table,Field,Description
+encounters,,Patient encounter data
+encounters,Id,Primary Key. Unique Identifier of the encounter.
+encounters,Start,The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the encounter started
+encounters,Stop,The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the encounter concluded
+encounters,Patient,Foreign key to the Patient.
+encounters,Organization,Foreign key to the Organization.
+encounters,Payer,Foreign key to the Payer.
+encounters,EncounterClass,"The class of the encounter, such as ambulatory, emergency, inpatient, wellness, or urgentcare"
+encounters,Code,Encounter code from SNOMED-CT
+encounters,Description,Description of the type of encounter.
+encounters,Base_Encounter_Cost,"The base cost of the encounter, not including any line item costs related to medications, immunizations, procedures, or other services."
+encounters,Total_Claim_Cost,"The total cost of the encounter, including all line items."
+encounters,Payer_Coverage,The amount of cost covered by the Payer.
+encounters,ReasonCode,"Diagnosis code from SNOMED-CT, only if this encounter targeted a specific condition."
+encounters,ReasonDescription,Description of the reason code.
+organizations,,Hospital details
+organizations,Id,Primary key of the Organization.
+organizations,Name,Name of the Organization.
+organizations,Address,Organization's street address without commas or newlines.
+organizations,City,Street address city.
+organizations,State,Street address state abbreviation.
+organizations,Zip,Street address zip or postal code.
+organizations,Lat,Latitude of Organization's address.
+organizations,Lon,Longitude of Organization's address.
+patients,,Patient demographic data.
+patients,Id,Primary Key. Unique Identifier of the patient.
+patients,BirthDate,The date (YYYY-MM-DD) the patient was born.
+patients,DeathDate,The date (YYYY-MM-DD) the patient died.
+patients,Prefix,"Name prefix, such as Mr., Mrs., Dr., etc."
+patients,First,First name of the patient.
+patients,Middle,Middle name of the patient.
+patients,Last,Last or surname of the patient.
+patients,Suffix,"Name suffix, such as PhD, MD, JD, etc."
+patients,Maiden,Maiden name of the patient.
+patients,Marital,"Marital Status. M is married, S is single. Currently no support for divorce (D) or widowing (W)"
+patients,Race,Description of the patient's primary race.
+patients,Ethnicity,Description of the patient's primary ethnicity.
+patients,Gender,"Gender. M is male, F is female."
+patients,BirthPlace,Name of the town where the patient was born.
+patients,Address,Patient's street address without commas or newlines.
+patients,City,Patient's address city.
+patients,State,Patient's address state.
+patients,County,Patient's address county.
+patients,FIPS County Code,Patient's FIPS county code.
+patients,Zip,Patient's zip code.
+patients,Lat,Latitude of Patient's address.
+patients,Lon,Longitude of Patient's address.
+payers,,Insurance payer data.
+payers,Id,Primary key of the Payer (e.g. Insurance).
+payers,Name,Name of the Payer.
+payers,Address,Payer's street address without commas or newlines.
+payers,City,Street address city.
+payers,State_Headquartered,Street address state abbreviation.
+payers,Zip,Street address zip or postal code.
+payers,Phone,Payer's phone number.
+procedures,,Patient procedure data including surgeries.
+procedures,Start,The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the procedure was performed.
+procedures,Stop,"The date and time (iso8601 UTC Date (yyyy-MM-dd'T'HH:mm'Z')) the procedure was completed, if applicable."
+procedures,Patient,Foreign key to the Patient.
+procedures,Encounter,Foreign key to the Encounter where the procedure was performed.
+procedures,Code,Procedure code from SNOMED-CT
+procedures,Description,Description of the procedure.
+procedures,Base_Cost,The line item cost of the procedure.
+procedures,ReasonCode,Diagnosis code from SNOMED-CT specifying why this procedure was performed.
+procedures,ReasonDescription,Description of the reason code.
