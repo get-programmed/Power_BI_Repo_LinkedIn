@@ -1,0 +1,74 @@
+SVG 100% Stacked Progress bar V1 = 
+
+// Define the percentage values
+VAR _FirstValue = [Percentage Of Female] // Put percentage as decimal (Ex : 0.4)
+VAR _SecondValue = [Percentage Of Male] // Put percentage as decimal (Ex : 0.6)
+
+// Format the percentage values to display
+VAR _FirstValueAppers = FORMAT(_FirstValue,"#0%")
+VAR _SecondValueAppers = FORMAT(_SecondValue,"#0%")
+
+// Define font size and color for the text
+VAR _Font_Size = 11
+VAR _FontColor = "#000000"
+
+// Define colors for the bars and text background
+VAR _FirstBarColor = "#3FAAFF"
+VAR _SecondBarColor = "#004B8A"
+VAR _FontBGBoardColor = "#FFFFFF"
+
+// Calculate the length of the bars based on the percentage values
+VAR _FirstBarLength = _FirstValue * 2 * 100
+VAR _SecondBarLength = _SecondValue * 2 * 100
+
+RETURN
+"data:image/svg+xml;utf8,
+<svg xmlns='http://www.w3.org/2000/svg' viewbox ='0 0 273 40'>
+<rect x='37' y='3' width='201' height='15' rx='4' ry='4' style='fill: #00000050'/>
+
+"& IF(_FirstBarLength<=0,BLANK(), "
+<rect x='37' y='3' width='0' height='15' rx='4' ry='4' style='fill: "& _FirstBarColor &"' >
+<animate attributeName='width' from='0' to='"& _FirstBarLength &"' dur='1.5s' fill='freeze' />
+</rect>
+
+<g transform='translate(40,16)'>
+<g transform='scale(-1,1)'>
+<path d='M45 11C45 8.79086 43.2091 7 41 7H8.65685C7.59599 7 6.57857 6.57857 5.82843 5.82843L4.85355 4.85355C4.53857 4.53857 4 4.76165 4 5.20711V11V22C4 24.2091 5.79086 26 8 26H41C43.2091 26 45 24.2091 45 22V11Z' fill='"& _FontBGBoardColor &"' filter='url(#filter0_d_3902_2)' transform='scale(0.75)'/>
+<defs>
+<filter id='filter0_d_3902_2' x='0' y='0.706055' width='49' height='29.2939' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'>
+<feColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/>
+<feOffset/> 
+<feGaussianBlur stdDeviation='2'/>
+<feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_3902_2' result='shape'/>
+</filter>
+</defs>
+</g>
+<text x='-18' y='14' fill='black' font-family='Arial' font-weight='bold' font-size='" & _Font_Size & "' text-anchor='middle' dominant-baseline='middle'> "& _FirstValueAppers &" </text>
+<animateTransform attributeName='transform'  type='translate' from='40 16' to='"& 40 + _FirstBarLength &" 16' dur='1.5s' fill='freeze'/>
+</g>"
+)
+&"
+"& IF(_SecondBarLength<=0,BLANK(), "
+<rect x='"& 38 + _FirstBarLength &"' y='3' width='0' height='15' rx='4' ry='4' style='fill: "& _SecondBarColor &"' >
+<animate attributeName='width' from='0' to='"& _SecondBarLength &"' begin='"& IF(_FirstBarLength<=0,"0s","1.5s")&"' dur='1.5s' fill='freeze' />
+</rect>
+
+<g transform='translate(138,16)' visibility='hidden'>
+<path d='M45 11C45 8.79086 43.2091 7 41 7H8.65685C7.59599 7 6.57857 6.57857 5.82843 5.82843L4.85355 4.85355C4.53857 4.53857 4 4.76165 4 5.20711V11V22C4 24.2091 5.79086 26 8 26H41C43.2091 26 45 24.2091 45 22V11Z' fill='"& _FontBGBoardColor &"' filter='url(#filter0_d_3902_2)' transform='scale(0.75)'/>
+<defs>
+<filter id='filter0_d_3902_2' x='0' y='0.706055' width='49' height='29.2939' filterUnits='userSpaceOnUse' color-interpolation-filters='sRGB'>
+<feColorMatrix in='SourceAlpha' type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0' result='hardAlpha'/>
+<feOffset/> 
+<feGaussianBlur stdDeviation='2'/>
+<feBlend mode='normal' in='SourceGraphic' in2='effect1_dropShadow_3902_2' result='shape'/>
+</filter>
+</defs>
+<text x='19' y='14' fill='black' font-family='Arial' font-weight='bold' font-size='" & _Font_Size & "' text-anchor='middle' dominant-baseline='middle'> "& _SecondValueAppers &" </text>
+<animateTransform attributeName='transform'  type='translate' from='"& 37 + _FirstBarLength &" 16' to='"& 36 + _FirstBarLength + _SecondBarLength &" 16' begin='"& IF(_FirstBarLength<=0,"0s","1.5s")&"' dur='1.5s' fill='freeze'/>
+<set attributeName='visibility' to='visible' begin='"& IF(_FirstBarLength<=0,"0s","1.5s")&"' />
+</g>"
+)
+&"
+
+</svg>
+"
